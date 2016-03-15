@@ -1,0 +1,25 @@
+<table id='res'>
+  <tr id='userinput'>
+  </tr>
+  <tr id ='answer'>
+  </tr>
+</table>
+
+<script>
+var table = d3.select('#res')
+  , userInput = table.select('#userinput')
+  , answer = table.select('#answer');
+
+userInput.selectAll('#cell')
+  .data(expData.userData)
+  .enter()
+  .append('td')
+  .text(function(d) { return d; });
+
+answer.selectAll('#cell')
+  .data(expData.corrects)
+  .enter()
+  .append('td')
+  .text(function(d) { return d; });
+
+</script>

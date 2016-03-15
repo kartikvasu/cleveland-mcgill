@@ -1,0 +1,86 @@
+<svg id = 'vis'>
+
+</svg>
+
+<form id='firstform'>
+  <center>
+   Please specify what you perceive to be the <br />
+   percentage of the smaller marked bar with respect to <br />
+   the larger marked bar. <br />
+   For example if you think the smaller bar is half <br />
+   of the larger bar, you would enter 50. <br /><br />
+   Please enter a value: <br />
+  <input type='text' name='firstAns' id='result1'>
+  </center>
+</form>
+
+<script>
+(function(){
+
+  //function for computing the right answer
+  var rightAnswer = function(value1, value2) {
+    if(value1 < value2) {
+      return value1/value2 * 100;
+    }
+    else { 
+      return value2/value1 * 100;
+    }
+  }
+
+  //array for storing the data values between 0 and 100
+  var data = [];
+
+  //for loop for generating random values b/w 0 and 100
+  for(var i = 0; i < 10; i++)
+    data.push(Math.floor(Math.random() * 100));
+  
+  //set the width and height
+  var width = 300,
+      height = 300;
+  
+  //selection for adding the svg
+  var chart = d3.select("#vis")
+    .attr("width", width) 
+    .attr("height", height);
+
+  //set the bar width and the scale
+  var barWidth = width / 10;
+  var yScale = d3.scale.linear()
+    .domain([0, 100])
+    .range([0, height]);
+
+  //adding the bars
+  var bar = chart.selectAll("rect")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("fill", "white")
+    .attr("stroke", "black")
+    .attr("x", function(d, i) { return i * barWidth; })
+    .attr("y", function(d) { return height - yScale(d); })
+    .attr("height", function(d) { return yScale(d); })
+    .attr("width", barWidth - 1);
+  
+  //add two random points
+  var index = []
+  for(var i = 0; i < 2; i++){
+    var elem = Math.floor(Math.random() * 10);
+    if(index.includes(elem))
+      i--;
+    else index.push(elem);
+  }
+
+  //add the points on the bar graph
+  var points = chart.selectAll("circle")
+    .data(index)
+    .enter()
+    .append("circle")
+    .attr("fill", "black")
+    .attr("cx", function(d) { return d * barWidth + barWidth/2; })
+    .attr("cy", function(d) { return height - yScale(data[d]) + 10; })
+    .attr("r", 5); 
+  
+  expData.corrects.push(rightAnswer(data[index[0]], data[index[1]]));
+}());
+
+</script>

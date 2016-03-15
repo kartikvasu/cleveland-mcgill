@@ -1,0 +1,86 @@
+<svg id='vis'>
+</svg>
+
+<form>
+  <center>
+   Please specify what you perceive to be the <br />
+   percentage of the smaller marked bar with respect to <br />
+   the larger marked bar. <br />
+   For example if you think the smaller bar is half <br />
+   of the larger bar, you would enter 50. <br /><br />
+   Please enter a value: <br />
+  <input type='text' name='value' id='result2'>
+  </center>
+</form>
+
+<script>
+(function(){
+  
+    //function for computing the right answer
+  var rightAnswer = function(value1, value2) {
+    if(value1 < value2) {
+      return value1/value2 * 100;
+    }
+    else { 
+      return value2/value1 * 100;
+    }
+  }
+
+  var data = [];
+  for(var i = 0; i < 10; i++)
+    data.push(Math.floor(Math.random() * 100));
+
+  var total = (function(){
+    var t = 0;
+    for(var i = 0; i < 10; i++)
+      t += data[i];
+    return t;
+  }());
+
+  var width = 300,
+      height = 300;
+
+  var chart = d3.select("#vis")
+    .attr("width", width)
+    .attr("height", height);
+
+
+  var heightScale = d3.scale.linear()
+    .domain([0, 100])
+    .range([0, height/total * 100]);
+
+  var prevY = 0;
+  var yPos = [];
+  for(var i = 0; i < data.length; i++){
+
+    chart.append("rect")
+      .attr("fill", "white")
+      .attr("stroke", "black")
+      .attr("x", 0)
+      .attr("y", prevY)
+      .attr("height", heightScale(data[i]))
+      .attr("width", width * 0.95);
+    yPos.push(prevY);
+    prevY += heightScale(data[i]);
+  }
+
+  var index = []
+  for(var i = 0; i < 2; i++){
+    var elem = Math.floor(Math.random() * 10);
+    if(index.includes(elem))
+      i--;
+    else index.push(elem);
+  }
+ 
+  var points = chart.selectAll("circle")
+    .data(index)
+    .enter()
+    .append("circle")
+    .attr("fill", "black")
+    .attr("cx", width/2)
+    .attr("cy", function(d) { return yPos[d] + heightScale(data[d])/2; })
+    .attr("r", 5); 
+    
+  expData.corrects.push(rightAnswer(data[index[0]], data[index[1]]));
+}());
+</script>

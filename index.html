@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+<style>
+ #container{
+  text-align: center;
+  height: 500px;
+  width: 700px;
+  margin: auto;
+  }
+
+  body{
+   text-align: center;
+  }
+ 
+  #vis{
+   margin-bottom: 10px;
+  }
+
+  table{
+    border: 1px solid;
+  }
+
+  table td{
+    border: 1px solid;
+  }
+</style>
+</head>
+<body>
+  <h1> Experiment </h1>
+  <div id = 'container'>
+    Welcome to this survey! Please click the button below to be navigated to the introduction that will familiarize you with the experiment details.<br />
+    Note that for each question you have to enter your answer and then click 'NEXT' to go to the next question on the list. <br />
+   </div>
+<div id='nextbtn'> NEXT </div>
+ 
+<script src='script.js'></script>
+
+<script>
+  var expData = experiment();
+  expData.goNext();
+</script>
+
+</body>
+
+<script>
+  console.log(d3); // test if d3 is loaded
+</script>
