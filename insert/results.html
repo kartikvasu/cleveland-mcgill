@@ -1,14 +1,20 @@
 <table id='res'>
   <tr id='userinput'>
+    <td><b>User Input</b></td>
   </tr>
   <tr id ='answer'>
+    <td><b>Correct Answer</b></td>
+  </tr>
+  <tr id = 'errors'>
+    <td><b>Percentage Error</b></td>
   </tr>
 </table>
 
 <script>
 var table = d3.select('#res')
   , userInput = table.select('#userinput')
-  , answer = table.select('#answer');
+  , answer = table.select('#answer')
+  , errors = table.select('#errors');
 
 userInput.selectAll('#cell')
   .data(expData.userData)
@@ -20,6 +26,16 @@ answer.selectAll('#cell')
   .data(expData.corrects)
   .enter()
   .append('td')
-  .text(function(d) { return d; });
+  .text(function(d) { return Math.round(d); });
 
+for(var i = 0; i < expData.userData.length; i++){
+  expData.percerrors.push((Math.abs((expData.userData[i] - expData.corrects[i]))/expData.corrects[i]) * 100);
+  console.log(expData.errors[i]);
+}
+errors.selectAll('#cell')
+  .data(expData.percerrors)
+  .enter()
+  .append('td')
+  .text(function(d) { return d; });
+ 
 </script>
